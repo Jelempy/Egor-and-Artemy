@@ -13,20 +13,65 @@ namespace Project
         public GenUnit GetGenAB(GenUnit UnitOne, GenUnit UnitTwo) // Метод скрещивания двух генов и получения 3-его гена
         {
 
-            Loop:
             
-            GenUnit NewGen;
-            Random rnd;
+            GenUnit NewGen = new GenUnit();
+
+            NewGen = GenHelp(UnitOne, UnitTwo, NewGen);
+           
+            
+            // Проверка хромосомы Сенсоров
+            for (int i = 0; i < 4; i++)
+            {
+                 int T = 0; 
+                 for (int j = 0; j < 6; j++)
+                 {
+                 
+                 if (NewGen.sensorsDom[i, j] == true)
+                     T++;
+                 if (T >= 2)
+                 {
+
+                     NewGen = null;
+                     NewGen = GenHelp(UnitOne, UnitTwo, NewGen);
+
+                 }
+                 }
+			}
+
+            
+
+            // Проверка хромосомы Движения
+            for (int i = 1; i < 4; i++)
+            {
+                int T = 0;
+                for (int j = 0; j < 6; j++)
+                {
+                    
+                    if (NewGen.moverDom[i, j] == true)
+                        T++;
+                    if (T >= 2)
+                        ;
+                }
+            }
+            
+            //  Цвет будет поже
+
+            return NewGen;
+        }
+
+        GenUnit GenHelp(GenUnit UnitOne, GenUnit UnitTwo, GenUnit NewGen) // метод скрещивания генов
+        {
+            Random rnd = new Random();
 
             for (int i = 0; i < 6; i++)// Цикл для перебора генов слуха
             {
-                
-                
-                switch (rnd.Next(0,1))
-	            {
+
+
+                switch (rnd.Next(0, 1))
+                {
                     case 0: NewGen.sensorsDom[0, i] = UnitOne.sensorsDom[0, i]; break;
                     case 1: NewGen.sensorsDom[0, i] = UnitTwo.sensorsDom[0, i]; break;
-	            }    
+                }
             }
             for (int i = 0; i < 6; i++)// Цикл для перебора генов зрения
             {
@@ -55,20 +100,6 @@ namespace Project
                     case 1: NewGen.sensorsDom[3, i] = UnitTwo.sensorsDom[3, i]; break;
                 }
             }
-            
-            // Проверка хромосомы
-            for (int i = 0; i < 4; i++)
-            {
-                 int T = 0; 
-                 for (int j = 0; j < 6; j++)
-                 {
-                 
-                 if (NewGen.sensorsDom[i, j] == true)
-                     T++;
-                 if (T >= 2)
-                     goto Loop;
-                 }
-			}
 
             for (int i = 0; i < 6; i++)// Цикл для перебора генов Движителей
             {
@@ -106,22 +137,6 @@ namespace Project
                     case 1: NewGen.moverDom[3, i] = UnitTwo.moverDom[3, i]; break;
                 }
             }
-
-            // Проверка хромосомы Движения
-            for (int i = 1; i < 4; i++)
-            {
-                int T = 0;
-                for (int j = 0; j < 6; j++)
-                {
-                    
-                    if (NewGen.moverDom[i, j] == true)
-                        T++;
-                    if (T >= 2)
-                        goto Loop;
-                }
-            }
-            
-            //  Цвет будет поже
 
             return NewGen;
         }

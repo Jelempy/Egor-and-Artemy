@@ -10,6 +10,8 @@ namespace Project
     {
         static void Main()
         {
+
+            Console.ReadLine();
         }
     }
 }
